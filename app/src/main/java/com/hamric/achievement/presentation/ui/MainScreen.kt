@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.res.painterResource
@@ -70,6 +71,7 @@ fun MainScreen(
     }
 }
 
+
 @Composable
 fun MainContent(
     state: AchievementState,
@@ -107,26 +109,40 @@ fun MainContent(
     }
 }
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     searchText: String,
     onSearchTextChange: (String) -> Unit
 ) {
-    SearchBar(
-        query = searchText,
-        onQueryChange = onSearchTextChange,
-        onSearch = { },
-        active = false,
-        onActiveChange = { },
+    // ✅ Use TextField instead - no extra spacing
+    TextField(
+        value = searchText,
+        onValueChange = onSearchTextChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        placeholder = { Text("Cari achievement...") }
-    ) {
-        // Search results would go here if needed
-    }
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        placeholder = { Text("Cari achievement...") },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_search),
+                contentDescription = "Search",
+                modifier = Modifier.size(20.dp)
+            )
+        },
+        shape = MaterialTheme.shapes.medium,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        singleLine = true
+    )
 }
+
 
 @Composable
 fun LoadingView() {
