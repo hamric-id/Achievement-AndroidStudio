@@ -19,17 +19,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hamric.achievement.ui.theme.Green60
 import com.hamric.achievement.R
 import com.hamric.achievement.domain.model.Achievement
+import com.hamric.achievement.ui.theme.Dark20
+import com.hamric.achievement.ui.theme.red
 
 @Composable
 fun CardView(
     item: Achievement,
     onDetailTap: () -> Unit
 ) {
-    // State for status dot color (recomposes when item changes)
     val statusDotColor = remember(item.currentTarget, item.minimumTarget) {
-        if (item.currentTarget > item.minimumTarget) Color(0xFF4CAF50) else Color.Red
+        if (item.currentTarget > item.minimumTarget) Green60 else red
     }
 
     Card(
@@ -46,7 +48,6 @@ fun CardView(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        // Status Dot
                         Box(
                             modifier = Modifier
                                 .size(10.dp)
@@ -62,9 +63,8 @@ fun CardView(
                         )
                     }
 
-                    // Info Icon (assuming you have the icon in res/drawable)
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_info_circle),
+                        painter = painterResource(id = R.drawable.info_circle),
                         contentDescription = "Info",
                         modifier = Modifier.size(16.dp),
                         tint = Color.Gray
@@ -73,7 +73,6 @@ fun CardView(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // Progress Text
                 Text(
                     text = buildAnnotatedString {
                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -92,7 +91,6 @@ fun CardView(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Progress Bar
                 val progress = (item.currentTarget.toFloat() / item.target.toFloat()) * 100f
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -114,14 +112,13 @@ fun CardView(
                 }
             }
 
-            // Detail Button
             Button(
                 onClick = onDetailTap,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(32.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF5F5F5)
+                    containerColor = Dark20
                 ),
                 contentPadding = PaddingValues(horizontal = 10.dp)
             ) {
