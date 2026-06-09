@@ -2,6 +2,7 @@ package com.hamric.achievement.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hamric.achievement.domain.usecase.FetchAchievementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,13 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AchievementViewModel @Inject constructor() : ViewModel() {
+class AchievementViewModel @Inject constructor(
+    private val fetchAchievementsUseCase: FetchAchievementsUseCase
+) : ViewModel() {
 
-    // MVI State Flow
     private val _state = MutableStateFlow(AchievementState())
     val state: StateFlow<AchievementState> = _state.asStateFlow()
 
-    // Handle user intents
     fun handleIntent(intent: AchievementIntent) {
         when (intent) {
             is AchievementIntent.LoadAchievements -> loadAchievements()
@@ -30,7 +31,19 @@ class AchievementViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
 
-            //fetch achievement use case
+            val result = fetchAchievementsUseCase()
+
+            result.onSuccess { achievements ->
+                _state.update { it.copy(
+                    isLoading = false,
+                    items = achievements
+                ) }
+            }.onFailure { error ->
+                _state.update { it.copy(
+                    isLoading = false,
+                    errorMessage = error.message ?: "Unknown error occurred"
+                ) }
+            }
         }
     }
 
