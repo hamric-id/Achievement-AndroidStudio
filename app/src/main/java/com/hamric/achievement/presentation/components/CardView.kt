@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.hamric.achievement.ui.theme.Green60
 import com.hamric.achievement.R
 import com.hamric.achievement.domain.model.Achievement
-import com.hamric.achievement.formatWithSeparatorPattern
+import com.hamric.achievement.utils.formatWithSeparatorPattern
 import com.hamric.achievement.ui.theme.Dark2
 import com.hamric.achievement.ui.theme.Dark20
 import com.hamric.achievement.ui.theme.red
