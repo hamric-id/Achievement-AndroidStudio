@@ -23,7 +23,6 @@ fun MainScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    // Load data when screen appears
     LaunchedEffect(Unit) {
         viewModel.handleIntent(AchievementIntent.LoadAchievements)
     }
@@ -78,7 +77,6 @@ fun MainContent(
     onDetailTap: (String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        // Search Bar
         SearchBar(
             searchText = state.searchText,
             onSearchTextChange = onSearchTextChange

@@ -2,7 +2,7 @@ package com.hamric.achievement.presentation.viewmodel
 
 import com.hamric.achievement.domain.model.Achievement
 
-// MVI State (Single source of truth)
+
 data class AchievementState(
     val isLoading: Boolean = false,
     val items: List<Achievement> = emptyList(),
@@ -26,7 +26,6 @@ data class AchievementState(
         }
 }
 
-// MVI Intent (User actions)
 sealed class AchievementIntent {
     data object LoadAchievements : AchievementIntent()
     data class UpdateSearchText(val text: String) : AchievementIntent()
